@@ -12,11 +12,11 @@ angular.module('starter', ['ionic', 'ngCordova'])
 
   document.addEventListener("deviceready", function() {
     $cordovaPush.register(androidConfig).then(function(result) {
-      alert('result: " + result);
+      alert('result: ' + result);
       //success
     }, function(err) {
       // error
-      alert('Registration error: " + err);
+      alert('Registration error: ' + err);
     });
 
     $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
