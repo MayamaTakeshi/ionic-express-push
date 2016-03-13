@@ -3,7 +3,7 @@ var app = express()
 
 var gcm = require('node-gcm');
 
-var sender = new gcm.Sender('AIzaSyD35z0Se6Mzdhm6TAgaRX-q34tNO5b-v_U', {'proxy': 'http://192.168.1.7:3128/'});
+var sender = new gcm.Sender('API-Key', {'proxy': 'http://192.168.1.7:3128/'});
 
 var send_msg = function(r) {
   console.log("sending:");
