@@ -12,7 +12,8 @@ angular.module('starter', ['ionic', 'ngCordova'])
 
   document.addEventListener("deviceready", function() {
     $cordovaPush.register(androidConfig).then(function(result) {
-      alert('result: ' + result);
+      console.log('result: ' + result);
+      //alert('result: ' + result);
       //success
     }, function(err) {
       // error
@@ -23,11 +24,15 @@ angular.module('starter', ['ionic', 'ngCordova'])
       switch(notification.event) {
       case 'registered':
         if(notification.regid.length > 0) {
-          alert('registration ID = ' + notification.regid);
+          //alert('registration ID = ' + notification.regid);
+          $rootScope.device_token = notification.regid;
         }
         break;
       case 'message':
-        alert('message = ' + notification.message + 'msgCount = ' + notification.msgcnt);
+        //alert(JSON.stringify(notification));
+        var title = notification.payload['gcm.notification.title'];
+        var body = notification.payload['gcm.notification.body'];
+        alert(body);
         break;
       case 'error':
         alert('GCM error = ' + notification.msg);
@@ -56,3 +61,17 @@ angular.module('starter', ['ionic', 'ngCordova'])
     }
   });
 })
+
+.controller('MainCtrl', function($scope, $rootScope, $http) {
+  $scope.msg = "hello hello hello";
+  $scope.delay = 10;
+  $scope.startAlarm = function() {
+    var delay = $scope.delay || 0;
+    $http.get('https://qabcs.brastel.com/push_test?token=' + $rootScope.device_token + '&delay=' + delay + '&msg=' + $scope.msg).then(function(resp) {
+      console.log('Success: ' + resp);
+      //alert('Success: ' + resp);
+    }, function(err) {
+      alert('Failed: ' + JSON.stringify(err)); 
+    });
+  };
+});
